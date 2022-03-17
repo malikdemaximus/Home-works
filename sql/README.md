@@ -1,6 +1,6 @@
 # Задания «SQL»
 
-Для решения задач вам потребуется перейти по ссылке https://sql-academy.org/ru/sandbox. 
+Для решения задач вам потребуется перейти по ссылке https://sql-academy.org/ru/sandbox.
 Там вы будете выполнять все запросы для теста. По ссылке будет доступна схема `Air travels`, в которой есть
 4 таблицы: `TRIP`, `PASS_IN_TRIP`, `PASSENGER`, `COMPANY`. Ответы (SQL запросы) будет необходимо сохранить в этом файле `README`
 после каждого задания.
@@ -13,6 +13,12 @@ C помощью SELECT выведите всех пассажиров, кото
 
 <!-- ЗАКРЕПИТЕ ВАШ SELECT ОТ 1 ЗАДАНИЯ ЗДЕСЬ -->
 
+SELECT p.id, p.name AS 'PASSENGER_NAME', t.plane, c.name FROM Passenger p
+INNER JOIN Pass_in_trip pit ON p.id=pit.passenger
+INNER JOIN Trip t ON pit.trip=t.id
+INNER JOIN Company c ON t.company=c.id
+WHERE c.name='air_France' AND t.plane='Boeing';
+
 ### Задание 2.
 
 C помощью SELECT выведите количество пассажиров относительно каждого полета(`Pass_in_trip.trip`).
@@ -21,13 +27,22 @@ C помощью SELECT выведите количество пассажиро
 
 <!-- ЗАКРЕПИТЕ ВАШ SELECT ОТ 2 ЗАДАНИЯ ЗДЕСЬ -->
 
+SELECT trip, COUNT(passenger) as passengers FROM Pass_in_trip
+GROUP BY(trip)
+ORDER BY passengers DESC;
+
 ### Задание 3.
 
 С помощью SELECT выведите количество всех пассажиров из таблицы PASSENGER, имена которых начинаются с одной и той же буквы.
 Отсортируйте записи по убыванию(от большего к меньшему) относительно количества пассажиров. Показывать только те записи,
-где количество больше 1. Обязательные поля для вывода: `FIRST_CHAR`(Первая буква имени) 
+где количество больше 1. Обязательные поля для вывода: `FIRST_CHAR`(Первая буква имени)
 и `COUNT` (Количество пассажиров, имена которых начинаются с этой буквы).
 
 <!-- ЗАКРЕПИТЕ ВАШ SELECT ОТ 3 ЗАДАНИЯ ЗДЕСЬ -->
+
+SELECT substr(name,1,1) as FIRST_CHAR, COUNT(id) as COUNT FROM Passenger
+GROUP BY FIRST_CHAR
+HAVING COUNT > 0
+ORDER BY COUNT DESC;
 
 <!-- После выполнения всех заданий, необходимо сделать push в репозиторий и отправить ссылку на него -->
